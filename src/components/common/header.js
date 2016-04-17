@@ -2,6 +2,7 @@
 
 
 var React = require('react');
+var Link = require('react-router').Link;
 
 var Header = React.createClass({
 	render:function(){
@@ -11,9 +12,15 @@ var Header = React.createClass({
 					<a href="/" className="navbar-brand">
 					</a>
 					<ul className="nav navbar-nav">
-						<li><a href="/#/home">Home</a></li>
-						<li><a href="/#/about">About</a></li>
-						<li><a href="/#/authors">Authors</a></li>
+						<li>
+							<Link to="home">Home</Link>
+						</li>
+						<li>
+							<Link to="authors">Authors</Link>
+						</li>
+						<li>
+							<Link to="about">about</Link>
+						</li>
 					</ul>
 				</div>
 			</nav>

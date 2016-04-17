@@ -15,12 +15,13 @@ var Authors = React.createClass({
 
 	componentWillMount:function(){
 		console.log('will mount now');
-
 	},
 
 	componentDidMount:function(){
 		console.log('mounted');
 		this.setState({authors:AuthorApi.getAllAuthors()});
+
+		console.log(this.props.params.id);
 	},
 
 	render:function(){

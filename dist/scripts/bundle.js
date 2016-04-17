@@ -50476,12 +50476,13 @@ var Authors = React.createClass({displayName: "Authors",
 
 	componentWillMount:function(){
 		console.log('will mount now');
-
 	},
 
 	componentDidMount:function(){
 		console.log('mounted');
 		this.setState({authors:AuthorApi.getAllAuthors()});
+
+		console.log(this.props.params.id);
 	},
 
 	render:function(){
@@ -50503,6 +50504,7 @@ module.exports = Authors;
 
 
 var React = require('react');
+var Link = require('react-router').Link;
 
 var Header = React.createClass({displayName: "Header",
 	render:function(){
@@ -50512,9 +50514,15 @@ var Header = React.createClass({displayName: "Header",
 					React.createElement("a", {href: "/", className: "navbar-brand"}
 					), 
 					React.createElement("ul", {className: "nav navbar-nav"}, 
-						React.createElement("li", null, React.createElement("a", {href: "/#/home"}, "Home")), 
-						React.createElement("li", null, React.createElement("a", {href: "/#/about"}, "About")), 
-						React.createElement("li", null, React.createElement("a", {href: "/#/authors"}, "Authors"))
+						React.createElement("li", null, 
+							React.createElement(Link, {to: "home"}, "Home")
+						), 
+						React.createElement("li", null, 
+							React.createElement(Link, {to: "authors"}, "Authors")
+						), 
+						React.createElement("li", null, 
+							React.createElement(Link, {to: "about"}, "about")
+						)
 					)
 				)
 			)
@@ -50524,10 +50532,11 @@ var Header = React.createClass({displayName: "Header",
 
 module.exports = Header;
 
-},{"react":224}],232:[function(require,module,exports){
+},{"react":224,"react-router":32}],232:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
+var Link = require('react-router').Link;
 
 
 
@@ -50536,7 +50545,8 @@ var Home = React.createClass({displayName: "Home",
 		return (
 			React.createElement("div", {className: "jumbotron"}, 
 				React.createElement("h1", null, "Plural site"), 
-				React.createElement("p", null, "Discription here 32")
+				React.createElement("p", null, "Discription here 32"), 
+				React.createElement(Link, {to: "about", className: "btn btn-primary btn-large"}, "Learn more")
 			)
 		);
 	}
@@ -50544,7 +50554,7 @@ var Home = React.createClass({displayName: "Home",
 
 module.exports = Home;
 
-},{"react":224}],233:[function(require,module,exports){
+},{"react":224,"react-router":32}],233:[function(require,module,exports){
 $ = require('jquery');
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -50562,14 +50572,21 @@ var reactRouter = require('react-router');
 var Route = reactRouter.Route;
 var Router = reactRouter.Router;
 var IndexRoute = reactRouter.IndexRoute;
+var Redirect = reactRouter.Redirect;
+var NotFoundRoute = reactRouter.NotFoundPage;
+var hashHistory = reactRouter.hashHistory;
+var browserHistory = reactRouter.browserHistory;
 
 var routes = (
-	React.createElement(Router, null, 
+	React.createElement(Router, {history: hashHistory}, 
 		React.createElement(Route, {path: "/", component: require('./components/app')}, 
-			React.createElement(IndexRoute, {path: "home", component: require('./components/homePage')}), 
+			React.createElement(IndexRoute, {component: require('./components/homePage')}), 
 			React.createElement(Route, {path: "home", component: require('./components/homePage')}), 
 			React.createElement(Route, {path: "authors", component: require('./components/authors/authorPage')}), 
-			React.createElement(Route, {path: "about", component: require('./components/about/aboutPage')})
+			React.createElement(Route, {path: "authors/:id", component: require('./components/authors/authorPage')}), 
+			React.createElement(Route, {path: "about", component: require('./components/about/aboutPage')}), 
+			React.createElement(Redirect, {from: "about-us", to: "about"}), 
+			React.createElement(Redirect, {from: "about/*", to: "about"})
 		)
 	)
 );
